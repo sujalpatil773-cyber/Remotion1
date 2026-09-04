@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Easing, Html5Audio, Img, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Composition, Easing, Sequence, interpolate, spring, useCurrentFrame } from 'remotion';
 
 const ease = Easing.bezier(0.16, 1, 0.3, 1);
 
