@@ -1,0 +1,21 @@
+{
+  "name": "remotion1-chatgpt-intro",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "remotion studio",
+    "studio": "remotion studio",
+    "render": "remotion render ChatGPTIntro out/chatgpt-intro.mp4"
+  },
+  "dependencies": {
+    "@remotion/media": "^4.0.506",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "remotion": "^4.0.506"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
+  }
+}
