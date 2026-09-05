@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f8fa" />
+  <title>BTC Microstructure Terminal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-dot"></span><div><strong>BTC MICROSTRUCTURE</strong><small>LIVE ORDER-FLOW TERMINAL</small></div></div>
+    <div class="status"><span id="wsDot" class="dot off"></span><span id="wsStatus">Connecting…</span><span class="sep"></span><span id="lastUpdate">—</span></div>
+  </header>
+
+  <main>
+    <section class="hero grid-12">
+      <div class="price-card span-5">
+        <div class="eyebrow">BINANCE SPOT · BTCUSDT</div>
+        <div class="price-row"><span id="price">—</span><span id="priceMove" class="pill neutral">—</span></div>
+        <div class="substats"><span>Bid <b id="bid">—</b></span><span>Ask <b id="ask">—</b></span><span>Spread <b id="spread">—</b></span></div>
+      </div>
+      <div class="signal-card span-4">
+        <div class="eyebrow">REAL-TIME FLOW BIAS</div>
+        <div id="bias" class="bias neutral-text">WAITING FOR DATA</div>
+        <div class="meter"><div id="biasMeter"></div></div>
+        <div class="substats"><span>Score <b id="biasScore">0.00</b></span><span>Confidence <b id="confidence">—</b></span></div>
+      </div>
+      <div class="latency-card span-3">
+        <div class="eyebrow">FEED HEALTH</div>
+        <div class="bigmetric" id="latency">—</div><span>observed WS event age</span>
+        <div class="health-row"><span>Spot <b id="spotState">OFF</b></span><span>Futures <b id="futuresState">OFF</b></span></div>
+      </div>
+    </section>
+
+    <section class="grid-12 cards">
+      <article class="card span-4"><header><h2>Order-book imbalance</h2><span class="tag">L2</span></header><div class="metric"><b id="obi">—</b><span>top 20 levels</span></div><div class="bar"><i id="obiBid"></i><i id="obiAsk"></i></div><div class="twocol"><span>Bid depth <b id="bidDepth">—</b></span><span>Ask depth <b id="askDepth">—</b></span></div></article>
+      <article class="card span-4"><header><h2>Order-flow imbalance</h2><span class="tag">OFI</span></header><div class="metric"><b id="ofi">—</b><span>rolling 5s</span></div><div class="spark" id="ofiSpark"></div><div class="twocol"><span>Buy pressure <b id="buyPressure">—</b></span><span>Sell pressure <b id="sellPressure">—</b></span></div></article>
+      <article class="card span-4"><header><h2>Market-order aggression</h2><span class="tag">TRADES</span></header><div class="metric"><b id="aggression">—</b><span>taker buy / sell</span></div><div class="twocol"><span>Taker buy <b id="takerBuy">—</b></span><span>Taker sell <b id="takerSell">—</b></span></div><div class="progress"><i id="aggressionBar"></i></div></article>
+
+      <article class="card span-4"><header><h2>Queue position</h2><span class="tag">EXECUTION</span></header><div class="metric"><b id="queue">N/A</b><span>own order not connected</span></div><p class="note">Exact queue position cannot be inferred from public L2. The displayed best-level queue depth is live below.</p><div class="twocol"><span>Best bid queue <b id="bidQueue">—</b></span><span>Best ask queue <b id="askQueue">—</b></span></div></article>
+      <article class="card span-4"><header><h2>Cancellation / withdrawal</h2><span class="tag">PROXY</span></header><div class="metric"><b id="cancelRate">—</b><span>liquidity withdrawal proxy</span></div><p class="note">Binance diff-depth does not expose a unique cancel event. This proxy measures displayed depth falling without matching trade flow.</p><div class="twocol"><span>Withdrawals <b id="withdrawals">—</b></span><span>Replenishment <b id="replenish">—</b></span></div></article>
+      <article class="card span-4"><header><h2>Order arrival intensity</h2><span class="tag">RATE</span></header><div class="metric"><b id="arrival">—</b><span>events / second</span></div><div class="twocol"><span>Depth updates <b id="depthRate">—</b></span><span>Trades <b id="tradeRate">—</b></span></div><div class="spark" id="arrivalSpark"></div></article>
+
+      <article class="card span-4"><header><h2>Liquidity replenishment</h2><span class="tag">L2 DYNAMICS</span></header><div class="metric"><b id="replenishRate">—</b><span>adds / second</span></div><div class="twocol"><span>Bid adds <b id="bidAdds">—</b></span><span>Ask adds <b id="askAdds">—</b></span></div><div class="smallbar"><i id="replenishBar"></i></div></article>
+      <article class="card span-4"><header><h2>Spread</h2><span class="tag">MICROPRICE</span></header><div class="metric"><b id="spreadBps">—</b><span>basis points</span></div><div class="twocol"><span>Absolute <b id="spreadAbs">—</b></span><span>Mid <b id="mid">—</b></span></div><div class="twocol"><span>Microprice <b id="microprice">—</b></span><span>Edge <b id="microEdge">—</b></span></div></article>
+      <article class="card span-4"><header><h2>Short-term volatility</h2><span class="tag">REALIZED</span></header><div class="metric"><b id="vol">—</b><span>annualized, 1m window</span></div><div class="twocol"><span>1s return <b id="ret1s">—</b></span><span>1m range <b id="range1m">—</b></span></div><div class="spark" id="priceSpark"></div></article>
+
+      <article class="card span-6"><header><h2>Cross-venue price</h2><span class="tag">SPOT vs FUTURES</span></header><div class="venue-grid"><div><small>BINANCE SPOT</small><b id="spotPrice">—</b></div><div><small>BINANCE USDⓈ-M</small><b id="futuresPrice">—</b></div><div><small>BASIS</small><b id="basis">—</b></div><div><small>BASIS (BPS)</small><b id="basisBps">—</b></div></div><div class="venue-foot"><span id="venueTime">Waiting for both feeds…</span></div></article>
+      <article class="card span-6"><header><h2>Live order book</h2><span class="tag">20 LEVELS</span></header><div class="book-wrap"><div class="book-head"><span>PRICE</span><span>QTY</span><span>NOTIONAL</span></div><div id="asks" class="book-side"></div><div class="midline"><span id="bookMid">—</span><span>mid</span></div><div id="bids" class="book-side"></div></div></article>
+    </section>
+
+    <section class="bottom grid-12">
+      <article class="card span-8"><header><h2>Microstructure timeline</h2><span class="tag">LAST 60s</span></header><div id="timeline" class="timeline"></div></article>
+      <article class="card span-4"><header><h2>Data provenance</h2><span class="tag">NO MODEL</span></header><ul class="checks"><li><span class="ok">●</span> Binance public WebSocket</li><li><span class="ok">●</span> BTCUSDT Spot depth stream</li><li><span class="ok">●</span> BTCUSDT Spot aggTrade</li><li><span class="ok">●</span> BTCUSDT USDⓈ-M futures bookTicker</li><li><span class="ok">●</span> Live deterministic metrics</li><li><span class="warn">●</span> Queue position requires your own order</li><li><span class="warn">●</span> Cancellation is a displayed-liquidity proxy</li></ul></article>
+    </section>
+  </main>
+  <footer>BTC Microstructure Terminal · Market data only · No trade execution · Metrics are informational, not financial advice.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
