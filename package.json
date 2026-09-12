@@ -1,11 +1,11 @@
 {
-  "name": "remotion1-chatgpt-intro",
-  "version": "1.0.0",
+  "name": "gemini-motion-ad",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "remotion studio",
     "studio": "remotion studio",
-    "render": "remotion render ChatGPTIntro out/chatgpt-intro.mp4"
+    "render:gemini": "remotion render GeminiAd out/gemini-ad.mp4"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.506",
